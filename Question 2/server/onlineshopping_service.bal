@@ -64,3 +64,51 @@ service "onlineShopping" on ep {
     }
 
     
+    remote function placeOrder(placeOrderRequest value) returns OrderMessage|error {
+        if carts_table.hasKey(value.user_id) {
+            Cart cart = carts_table.get(value.user_id);
+            return{message: "Order Placed successfully - ", user_id: cart.user_id};
+        }
+        else {
+            return error("Cart not found");
+        }
+    }
+
+    remote function getUser(string value) returns User|error {
+            if users_table.hasKey(value) {
+                return users_table.get(value);
+            }
+            else {
+                return error("User not found");
+            }
+    }
+
+    remote function deleteUsers(string value) returns UserResponse|error {
+        if !users_table.hasKey(value) {
+            return error("User not found");
+        }
+        else {
+            User removedUser = users_table.remove(value);
+            return{response: "User Deleted successfully" + removedUser.id};
+        }
+    }
+
+    remote function createUsers(stream<User, grpc:Error?> clientStream) returns UserCreationMessage|error {
+        User[] users = [];
+        
+        check clientStream.forEach(function(User user) {
+            if  !users_table.hasKey(user.id) {
+                users_table.add({id: user.id, name: user.name, role: user.role});
+                users.push(user);
+            }
+            else {
+                io:println("User already exists");
+            }
+        });
+        return {users: users};
+    }
+}
+
+
+
+
