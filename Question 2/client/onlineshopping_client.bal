@@ -92,3 +92,110 @@ function listAvailable() returns error?{
     io:println(listAvailableProductsResponse);
     
 }
+
+public function main() returns error? {
+    
+    io:println("--- Login ---");
+    string id = io:readln("Enter user id: ");
+    io:println("Are you an Admin or User");
+    string role = io:readln("Enter Role: 1. Admin 2. User: ");
+    
+    User getUserResponse = check ep->getUser(id);
+
+    string user_role = getUserResponse.role;
+
+    if (role == "1" && user_role == "Admin"){ {
+        boolean run = true;
+        while true{
+        io:println("Login Successful");
+        io:println("Enter 1 to add product");
+        io:println("Enter 2 to update product");
+        io:println("Enter 3 to remove product");
+        io:println("Enter 4 to search product");
+        io:println("Enter 5 to delete user");
+        io:println("Enter 6 to create users");
+        io:println("Enter 7 to list Available products");
+        io:println("Enter 8 to exit");
+        
+
+        while run {
+            string option = io:readln("Enter Choice:");
+            if (option == "1") {
+                ProductMessage? addProductResponse = check addProduct();
+                io:println(addProductResponse);
+            }
+            else if (option == "2") {
+                ProductMessage? updateProductResponse = check updateProduct();
+                io:println(updateProductResponse);
+            }
+            else if (option == "3") {
+                ProductMessage? removeProductResponse = check removeProduct();
+                io:println(removeProductResponse);
+            
+                check listAvailable();
+                
+
+            }
+
+            else if (option == "4") {
+                ProductMessage? searchProductResponse = check searchProduct();
+                io:println(searchProductResponse);
+            }
+            
+            else if (option == "5"){
+                UserResponse? deleteUsersResponse = check deleteUsers();
+                io:println(deleteUsersResponse);
+            }
+
+            else if (option == "6"){
+                UserCreationMessage? createUsersResponse = check createUsers();
+                io:println(createUsersResponse);
+            }
+
+            else if (option == "7"){
+                 check listAvailable();
+
+            }
+            else if (option == "8"){
+                break;
+            }
+        }
+            io:println("Thank you for using the system");
+            break;
+        }
+        }
+    }
+
+        else if (role == "2" && user_role == "User") {
+            boolean run = true;
+            io:println("Login Successful");
+            while run{
+            io:println("1.List Available Product");
+            io:println("2. Add product to cart");
+            io:println("3. Place order");
+            io:println("4. Exit");
+            
+            while run {
+            string option = io:readln("Enter Number: ");
+            if option == "1"{
+                check listAvailable();
+               
+            }
+            if option == "2"{
+                CartMessage? addToCartResponse = check addToCart();
+                io:println(addToCartResponse);
+            }
+            if option == "3"{
+                OrderMessage? placeOrderResponse = check placeOrder();
+                io:println(placeOrderResponse);
+            }
+            if option == "4"{
+                run = false;
+            }
+            io:println("Thank you for using the system");
+        }
+            }
+        }
+    
+}
+
