@@ -156,3 +156,267 @@ public isolated client class onlineShoppingClient {
         [anydata, map<string|string[]>] [result, _] = payload;
         return <CartMessage>result;
     }
+
+    isolated remote function addToCartContext(Cart|ContextCart req) returns ContextCartMessage|grpc:Error {
+        map<string|string[]> headers = {};
+        Cart message;
+        if req is ContextCart {
+            message = req.content;
+            headers = req.headers;
+        } else {
+            message = req;
+        }
+        var payload = check self.grpcClient->executeSimpleRPC("shopping.onlineShopping/addToCart", message, headers);
+        [anydata, map<string|string[]>] [result, respHeaders] = payload;
+        return {content: <CartMessage>result, headers: respHeaders};
+    }
+
+    isolated remote function placeOrder(placeOrderRequest|ContextPlaceOrderRequest req) returns OrderMessage|grpc:Error {
+        map<string|string[]> headers = {};
+        placeOrderRequest message;
+        if req is ContextPlaceOrderRequest {
+            message = req.content;
+            headers = req.headers;
+        } else {
+            message = req;
+        }
+        var payload = check self.grpcClient->executeSimpleRPC("shopping.onlineShopping/placeOrder", message, headers);
+        [anydata, map<string|string[]>] [result, _] = payload;
+        return <OrderMessage>result;
+    }
+
+    isolated remote function placeOrderContext(placeOrderRequest|ContextPlaceOrderRequest req) returns ContextOrderMessage|grpc:Error {
+        map<string|string[]> headers = {};
+        placeOrderRequest message;
+        if req is ContextPlaceOrderRequest {
+            message = req.content;
+            headers = req.headers;
+        } else {
+            message = req;
+        }
+        var payload = check self.grpcClient->executeSimpleRPC("shopping.onlineShopping/placeOrder", message, headers);
+        [anydata, map<string|string[]>] [result, respHeaders] = payload;
+        return {content: <OrderMessage>result, headers: respHeaders};
+    }
+
+    isolated remote function getUser(string|wrappers:ContextString req) returns User|grpc:Error {
+        map<string|string[]> headers = {};
+        string message;
+        if req is wrappers:ContextString {
+            message = req.content;
+            headers = req.headers;
+        } else {
+            message = req;
+        }
+        var payload = check self.grpcClient->executeSimpleRPC("shopping.onlineShopping/getUser", message, headers);
+        [anydata, map<string|string[]>] [result, _] = payload;
+        return <User>result;
+    }
+
+    isolated remote function getUserContext(string|wrappers:ContextString req) returns ContextUser|grpc:Error {
+        map<string|string[]> headers = {};
+        string message;
+        if req is wrappers:ContextString {
+            message = req.content;
+            headers = req.headers;
+        } else {
+            message = req;
+        }
+        var payload = check self.grpcClient->executeSimpleRPC("shopping.onlineShopping/getUser", message, headers);
+        [anydata, map<string|string[]>] [result, respHeaders] = payload;
+        return {content: <User>result, headers: respHeaders};
+    }
+
+    isolated remote function deleteUsers(string|wrappers:ContextString req) returns UserResponse|grpc:Error {
+        map<string|string[]> headers = {};
+        string message;
+        if req is wrappers:ContextString {
+            message = req.content;
+            headers = req.headers;
+        } else {
+            message = req;
+        }
+        var payload = check self.grpcClient->executeSimpleRPC("shopping.onlineShopping/deleteUsers", message, headers);
+        [anydata, map<string|string[]>] [result, _] = payload;
+        return <UserResponse>result;
+    }
+
+    isolated remote function deleteUsersContext(string|wrappers:ContextString req) returns ContextUserResponse|grpc:Error {
+        map<string|string[]> headers = {};
+        string message;
+        if req is wrappers:ContextString {
+            message = req.content;
+            headers = req.headers;
+        } else {
+            message = req;
+        }
+        var payload = check self.grpcClient->executeSimpleRPC("shopping.onlineShopping/deleteUsers", message, headers);
+        [anydata, map<string|string[]>] [result, respHeaders] = payload;
+        return {content: <UserResponse>result, headers: respHeaders};
+    }
+
+    isolated remote function createUsers() returns CreateUsersStreamingClient|grpc:Error {
+        grpc:StreamingClient sClient = check self.grpcClient->executeClientStreaming("shopping.onlineShopping/createUsers");
+        return new CreateUsersStreamingClient(sClient);
+    }
+}
+
+public isolated client class CreateUsersStreamingClient {
+    private final grpc:StreamingClient sClient;
+
+    isolated function init(grpc:StreamingClient sClient) {
+        self.sClient = sClient;
+    }
+
+    isolated remote function sendUser(User message) returns grpc:Error? {
+        return self.sClient->send(message);
+    }
+
+    isolated remote function sendContextUser(ContextUser message) returns grpc:Error? {
+        return self.sClient->send(message);
+    }
+
+    isolated remote function receiveUserCreationMessage() returns UserCreationMessage|grpc:Error? {
+        var response = check self.sClient->receive();
+        if response is () {
+            return response;
+        } else {
+            [anydata, map<string|string[]>] [payload, _] = response;
+            return <UserCreationMessage>payload;
+        }
+    }
+
+    isolated remote function receiveContextUserCreationMessage() returns ContextUserCreationMessage|grpc:Error? {
+        var response = check self.sClient->receive();
+        if response is () {
+            return response;
+        } else {
+            [anydata, map<string|string[]>] [payload, headers] = response;
+            return {content: <UserCreationMessage>payload, headers: headers};
+        }
+    }
+
+    isolated remote function sendError(grpc:Error response) returns grpc:Error? {
+        return self.sClient->sendError(response);
+    }
+
+    isolated remote function complete() returns grpc:Error? {
+        return self.sClient->complete();
+    }
+}
+
+public type ContextUserStream record {|
+    stream<User, error?> content;
+    map<string|string[]> headers;
+|};
+
+public type ContextUserResponse record {|
+    UserResponse content;
+    map<string|string[]> headers;
+|};
+
+public type ContextCartMessage record {|
+    CartMessage content;
+    map<string|string[]> headers;
+|};
+
+public type ContextPlaceOrderRequest record {|
+    placeOrderRequest content;
+    map<string|string[]> headers;
+|};
+
+public type ContextUser record {|
+    User content;
+    map<string|string[]> headers;
+|};
+
+public type ContextListResponse record {|
+    ListResponse content;
+    map<string|string[]> headers;
+|};
+
+public type ContextProduct record {|
+    Product content;
+    map<string|string[]> headers;
+|};
+
+public type ContextOrderMessage record {|
+    OrderMessage content;
+    map<string|string[]> headers;
+|};
+
+public type ContextUserCreationMessage record {|
+    UserCreationMessage content;
+    map<string|string[]> headers;
+|};
+
+public type ContextProductMessage record {|
+    ProductMessage content;
+    map<string|string[]> headers;
+|};
+
+public type ContextCart record {|
+    Cart content;
+    map<string|string[]> headers;
+|};
+
+@protobuf:Descriptor {value: SHOPPING_DESC}
+public type UserResponse record {|
+    string response = "";
+|};
+
+@protobuf:Descriptor {value: SHOPPING_DESC}
+public type CartMessage record {|
+    string user_id = "";
+    string message = "";
+|};
+
+@protobuf:Descriptor {value: SHOPPING_DESC}
+public type placeOrderRequest record {|
+    string user_id = "";
+|};
+
+@protobuf:Descriptor {value: SHOPPING_DESC}
+public type User record {|
+    string id = "";
+    string name = "";
+    string role = "";
+|};
+
+@protobuf:Descriptor {value: SHOPPING_DESC}
+public type ListResponse record {|
+    Product[] products = [];
+|};
+
+@protobuf:Descriptor {value: SHOPPING_DESC}
+public type Product record {|
+    string name = "";
+    string description = "";
+    float price = 0.0;
+    int stock_quantity = 0;
+    string sku = "";
+    string status = "";
+|};
+
+@protobuf:Descriptor {value: SHOPPING_DESC}
+public type OrderMessage record {|
+    string user_id = "";
+    string message = "";
+|};
+
+@protobuf:Descriptor {value: SHOPPING_DESC}
+public type UserCreationMessage record {|
+    User[] users = [];
+|};
+
+@protobuf:Descriptor {value: SHOPPING_DESC}
+public type ProductMessage record {|
+    string message = "";
+    Product product = {};
+|};
+
+@protobuf:Descriptor {value: SHOPPING_DESC}
+public type Cart record {|
+    string user_id = "";
+    string sku = "";
+|};
