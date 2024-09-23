@@ -98,3 +98,306 @@ public isolated client class onlineShoppingClient {
         [anydata, map<string|string[]>] [result, respHeaders] = payload;
         return {content: <ProductMessage>result, headers: respHeaders};
     }
+
+    
+    isolated remote function listAvailableProducts() returns ListResponse|grpc:Error {
+        empty:Empty message = {};
+        map<string|string[]> headers = {};
+        var payload = check self.grpcClient->executeSimpleRPC("shopping.onlineShopping/listAvailableProducts", message, headers);
+        [anydata, map<string|string[]>] [result, _] = payload;
+        return <ListResponse>result;
+    }
+
+    isolated remote function listAvailableProductsContext() returns ContextListResponse|grpc:Error {
+        empty:Empty message = {};
+        map<string|string[]> headers = {};
+        var payload = check self.grpcClient->executeSimpleRPC("shopping.onlineShopping/listAvailableProducts", message, headers);
+        [anydata, map<string|string[]>] [result, respHeaders] = payload;
+        return {content: <ListResponse>result, headers: respHeaders};
+    }
+
+    isolated remote function searchProduct(string|wrappers:ContextString req) returns ProductMessage|grpc:Error {
+        map<string|string[]> headers = {};
+        string message;
+        if req is wrappers:ContextString {
+            message = req.content;
+            headers = req.headers;
+        } else {
+            message = req;
+        }
+        var payload = check self.grpcClient->executeSimpleRPC("shopping.onlineShopping/searchProduct", message, headers);
+        [anydata, map<string|string[]>] [result, _] = payload;
+        return <ProductMessage>result;
+    }
+
+    isolated remote function searchProductContext(string|wrappers:ContextString req) returns ContextProductMessage|grpc:Error {
+        map<string|string[]> headers = {};
+        string message;
+        if req is wrappers:ContextString {
+            message = req.content;
+            headers = req.headers;
+        } else {
+            message = req;
+        }
+        var payload = check self.grpcClient->executeSimpleRPC("shopping.onlineShopping/searchProduct", message, headers);
+        [anydata, map<string|string[]>] [result, respHeaders] = payload;
+        return {content: <ProductMessage>result, headers: respHeaders};
+    }
+
+    isolated remote function addToCart(Cart|ContextCart req) returns CartMessage|grpc:Error {
+        map<string|string[]> headers = {};
+        Cart message;
+        if req is ContextCart {
+            message = req.content;
+            headers = req.headers;
+        } else {
+            message = req;
+        }
+        var payload = check self.grpcClient->executeSimpleRPC("shopping.onlineShopping/addToCart", message, headers);
+        [anydata, map<string|string[]>] [result, _] = payload;
+        return <CartMessage>result;
+    }
+
+    isolated remote function addToCartContext(Cart|ContextCart req) returns ContextCartMessage|grpc:Error {
+        map<string|string[]> headers = {};
+        Cart message;
+        if req is ContextCart {
+            message = req.content;
+            headers = req.headers;
+        } else {
+            message = req;
+        }
+        var payload = check self.grpcClient->executeSimpleRPC("shopping.onlineShopping/addToCart", message, headers);
+        [anydata, map<string|string[]>] [result, respHeaders] = payload;
+        return {content: <CartMessage>result, headers: respHeaders};
+    }
+
+    isolated remote function placeOrder(placeOrderRequest|ContextPlaceOrderRequest req) returns OrderMessage|grpc:Error {
+        map<string|string[]> headers = {};
+        placeOrderRequest message;
+        if req is ContextPlaceOrderRequest {
+            message = req.content;
+            headers = req.headers;
+        } else {
+            message = req;
+        }
+        var payload = check self.grpcClient->executeSimpleRPC("shopping.onlineShopping/placeOrder", message, headers);
+        [anydata, map<string|string[]>] [result, _] = payload;
+        return <OrderMessage>result;
+    }
+
+    isolated remote function placeOrderContext(placeOrderRequest|ContextPlaceOrderRequest req) returns ContextOrderMessage|grpc:Error {
+        map<string|string[]> headers = {};
+        placeOrderRequest message;
+        if req is ContextPlaceOrderRequest {
+            message = req.content;
+            headers = req.headers;
+        } else {
+            message = req;
+        }
+        var payload = check self.grpcClient->executeSimpleRPC("shopping.onlineShopping/placeOrder", message, headers);
+        [anydata, map<string|string[]>] [result, respHeaders] = payload;
+        return {content: <OrderMessage>result, headers: respHeaders};
+    }
+
+    isolated remote function getUser(string|wrappers:ContextString req) returns User|grpc:Error {
+        map<string|string[]> headers = {};
+        string message;
+        if req is wrappers:ContextString {
+            message = req.content;
+            headers = req.headers;
+        } else {
+            message = req;
+        }
+        var payload = check self.grpcClient->executeSimpleRPC("shopping.onlineShopping/getUser", message, headers);
+        [anydata, map<string|string[]>] [result, _] = payload;
+        return <User>result;
+    }
+
+    isolated remote function getUserContext(string|wrappers:ContextString req) returns ContextUser|grpc:Error {
+        map<string|string[]> headers = {};
+        string message;
+        if req is wrappers:ContextString {
+            message = req.content;
+            headers = req.headers;
+        } else {
+            message = req;
+        }
+        var payload = check self.grpcClient->executeSimpleRPC("shopping.onlineShopping/getUser", message, headers);
+        [anydata, map<string|string[]>] [result, respHeaders] = payload;
+        return {content: <User>result, headers: respHeaders};
+    }
+
+    isolated remote function deleteUsers(string|wrappers:ContextString req) returns UserResponse|grpc:Error {
+        map<string|string[]> headers = {};
+        string message;
+        if req is wrappers:ContextString {
+            message = req.content;
+            headers = req.headers;
+        } else {
+            message = req;
+        }
+        var payload = check self.grpcClient->executeSimpleRPC("shopping.onlineShopping/deleteUsers", message, headers);
+        [anydata, map<string|string[]>] [result, _] = payload;
+        return <UserResponse>result;
+    }
+
+    isolated remote function deleteUsersContext(string|wrappers:ContextString req) returns ContextUserResponse|grpc:Error {
+        map<string|string[]> headers = {};
+        string message;
+        if req is wrappers:ContextString {
+            message = req.content;
+            headers = req.headers;
+        } else {
+            message = req;
+        }
+        var payload = check self.grpcClient->executeSimpleRPC("shopping.onlineShopping/deleteUsers", message, headers);
+        [anydata, map<string|string[]>] [result, respHeaders] = payload;
+        return {content: <UserResponse>result, headers: respHeaders};
+    }
+
+    isolated remote function createUsers() returns CreateUsersStreamingClient|grpc:Error {
+        grpc:StreamingClient sClient = check self.grpcClient->executeClientStreaming("shopping.onlineShopping/createUsers");
+        return new CreateUsersStreamingClient(sClient);
+    }
+}
+
+public isolated client class CreateUsersStreamingClient {
+    private final grpc:StreamingClient sClient;
+
+    isolated function init(grpc:StreamingClient sClient) {
+        self.sClient = sClient;
+    }
+
+    isolated remote function sendUser(User message) returns grpc:Error? {
+        return self.sClient->send(message);
+    }
+
+    isolated remote function sendContextUser(ContextUser message) returns grpc:Error? {
+        return self.sClient->send(message);
+    }
+
+    isolated remote function receiveUserCreationMessage() returns UserCreationMessage|grpc:Error? {
+        var response = check self.sClient->receive();
+        if response is () {
+            return response;
+        } else {
+            [anydata, map<string|string[]>] [payload, _] = response;
+            return <UserCreationMessage>payload;
+        }
+    }
+
+    isolated remote function receiveContextUserCreationMessage() returns ContextUserCreationMessage|grpc:Error? {
+        var response = check self.sClient->receive();
+        if response is () {
+            return response;
+        } else {
+            [anydata, map<string|string[]>] [payload, headers] = response;
+            return {content: <UserCreationMessage>payload, headers: headers};
+        }
+    }
+
+    isolated remote function sendError(grpc:Error response) returns grpc:Error? {
+        return self.sClient->sendError(response);
+    }
+
+    isolated remote function complete() returns grpc:Error? {
+        return self.sClient->complete();
+    }
+}
+
+public isolated client class OnlineShoppingUserResponseCaller {
+    private final grpc:Caller caller;
+
+    public isolated function init(grpc:Caller caller) {
+        self.caller = caller;
+    }
+
+    public isolated function getId() returns int {
+        return self.caller.getId();
+    }
+
+    isolated remote function sendUserResponse(UserResponse response) returns grpc:Error? {
+        return self.caller->send(response);
+    }
+
+    isolated remote function sendContextUserResponse(ContextUserResponse response) returns grpc:Error? {
+        return self.caller->send(response);
+    }
+
+    isolated remote function sendError(grpc:Error response) returns grpc:Error? {
+        return self.caller->sendError(response);
+    }
+
+    isolated remote function complete() returns grpc:Error? {
+        return self.caller->complete();
+    }
+
+    public isolated function isCancelled() returns boolean {
+        return self.caller.isCancelled();
+    }
+}
+
+public isolated client class OnlineShoppingProductMessageCaller {
+    private final grpc:Caller caller;
+
+    public isolated function init(grpc:Caller caller) {
+        self.caller = caller;
+    }
+
+    public isolated function getId() returns int {
+        return self.caller.getId();
+    }
+
+    isolated remote function sendProductMessage(ProductMessage response) returns grpc:Error? {
+        return self.caller->send(response);
+    }
+
+    isolated remote function sendContextProductMessage(ContextProductMessage response) returns grpc:Error? {
+        return self.caller->send(response);
+    }
+
+    isolated remote function sendError(grpc:Error response) returns grpc:Error? {
+        return self.caller->sendError(response);
+    }
+
+    isolated remote function complete() returns grpc:Error? {
+        return self.caller->complete();
+    }
+
+    public isolated function isCancelled() returns boolean {
+        return self.caller.isCancelled();
+    }
+}
+
+public isolated client class OnlineShoppingOrderMessageCaller {
+    private final grpc:Caller caller;
+
+    public isolated function init(grpc:Caller caller) {
+        self.caller = caller;
+    }
+
+    public isolated function getId() returns int {
+        return self.caller.getId();
+    }
+
+    isolated remote function sendOrderMessage(OrderMessage response) returns grpc:Error? {
+        return self.caller->send(response);
+    }
+
+    isolated remote function sendContextOrderMessage(ContextOrderMessage response) returns grpc:Error? {
+        return self.caller->send(response);
+    }
+
+    isolated remote function sendError(grpc:Error response) returns grpc:Error? {
+        return self.caller->sendError(response);
+    }
+
+    isolated remote function complete() returns grpc:Error? {
+        return self.caller->complete();
+    }
+
+    public isolated function isCancelled() returns boolean {
+        return self.caller.isCancelled();
+    }
+}
