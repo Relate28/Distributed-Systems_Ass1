@@ -401,3 +401,248 @@ public isolated client class OnlineShoppingOrderMessageCaller {
         return self.caller.isCancelled();
     }
 }
+
+public isolated client class OnlineShoppingCartMessageCaller {
+    private final grpc:Caller caller;
+
+    public isolated function init(grpc:Caller caller) {
+        self.caller = caller;
+    }
+
+    public isolated function getId() returns int {
+        return self.caller.getId();
+    }
+
+    isolated remote function sendCartMessage(CartMessage response) returns grpc:Error? {
+        return self.caller->send(response);
+    }
+
+    isolated remote function sendContextCartMessage(ContextCartMessage response) returns grpc:Error? {
+        return self.caller->send(response);
+    }
+
+    isolated remote function sendError(grpc:Error response) returns grpc:Error? {
+        return self.caller->sendError(response);
+    }
+
+    isolated remote function complete() returns grpc:Error? {
+        return self.caller->complete();
+    }
+
+    public isolated function isCancelled() returns boolean {
+        return self.caller.isCancelled();
+    }
+}
+
+public isolated client class OnlineShoppingUserCaller {
+    private final grpc:Caller caller;
+
+    public isolated function init(grpc:Caller caller) {
+        self.caller = caller;
+    }
+
+    public isolated function getId() returns int {
+        return self.caller.getId();
+    }
+
+    isolated remote function sendUser(User response) returns grpc:Error? {
+        return self.caller->send(response);
+    }
+
+    isolated remote function sendContextUser(ContextUser response) returns grpc:Error? {
+        return self.caller->send(response);
+    }
+
+    isolated remote function sendError(grpc:Error response) returns grpc:Error? {
+        return self.caller->sendError(response);
+    }
+
+    isolated remote function complete() returns grpc:Error? {
+        return self.caller->complete();
+    }
+
+    public isolated function isCancelled() returns boolean {
+        return self.caller.isCancelled();
+    }
+}
+
+public isolated client class OnlineShoppingListResponseCaller {
+    private final grpc:Caller caller;
+
+    public isolated function init(grpc:Caller caller) {
+        self.caller = caller;
+    }
+
+    public isolated function getId() returns int {
+        return self.caller.getId();
+    }
+
+    isolated remote function sendListResponse(ListResponse response) returns grpc:Error? {
+        return self.caller->send(response);
+    }
+
+    isolated remote function sendContextListResponse(ContextListResponse response) returns grpc:Error? {
+        return self.caller->send(response);
+    }
+
+    isolated remote function sendError(grpc:Error response) returns grpc:Error? {
+        return self.caller->sendError(response);
+    }
+
+    isolated remote function complete() returns grpc:Error? {
+        return self.caller->complete();
+    }
+
+    public isolated function isCancelled() returns boolean {
+        return self.caller.isCancelled();
+    }
+}
+
+public isolated client class OnlineShoppingUserCreationMessageCaller {
+    private final grpc:Caller caller;
+
+    public isolated function init(grpc:Caller caller) {
+        self.caller = caller;
+    }
+
+    public isolated function getId() returns int {
+        return self.caller.getId();
+    }
+
+    isolated remote function sendUserCreationMessage(UserCreationMessage response) returns grpc:Error? {
+        return self.caller->send(response);
+    }
+
+    isolated remote function sendContextUserCreationMessage(ContextUserCreationMessage response) returns grpc:Error? {
+        return self.caller->send(response);
+    }
+
+    isolated remote function sendError(grpc:Error response) returns grpc:Error? {
+        return self.caller->sendError(response);
+    }
+
+    isolated remote function complete() returns grpc:Error? {
+        return self.caller->complete();
+    }
+
+    public isolated function isCancelled() returns boolean {
+        return self.caller.isCancelled();
+    }
+}
+
+public type ContextUserStream record {|
+    stream<User, error?> content;
+    map<string|string[]> headers;
+|};
+
+public type ContextUserResponse record {|
+    UserResponse content;
+    map<string|string[]> headers;
+|};
+
+public type ContextCartMessage record {|
+    CartMessage content;
+    map<string|string[]> headers;
+|};
+
+public type ContextPlaceOrderRequest record {|
+    placeOrderRequest content;
+    map<string|string[]> headers;
+|};
+
+public type ContextUser record {|
+    User content;
+    map<string|string[]> headers;
+|};
+
+public type ContextListResponse record {|
+    ListResponse content;
+    map<string|string[]> headers;
+|};
+
+public type ContextProduct record {|
+    Product content;
+    map<string|string[]> headers;
+|};
+
+public type ContextOrderMessage record {|
+    OrderMessage content;
+    map<string|string[]> headers;
+|};
+
+public type ContextUserCreationMessage record {|
+    UserCreationMessage content;
+    map<string|string[]> headers;
+|};
+
+public type ContextProductMessage record {|
+    ProductMessage content;
+    map<string|string[]> headers;
+|};
+
+public type ContextCart record {|
+    Cart content;
+    map<string|string[]> headers;
+|};
+
+@protobuf:Descriptor {value: SHOPPING_DESC}
+public type UserResponse record {|
+    string response = "";
+|};
+
+@protobuf:Descriptor {value: SHOPPING_DESC}
+public type CartMessage record {|
+    string user_id = "";
+    string message = "";
+|};
+
+@protobuf:Descriptor {value: SHOPPING_DESC}
+public type placeOrderRequest record {|
+    string user_id = "";
+|};
+
+@protobuf:Descriptor {value: SHOPPING_DESC}
+public type User record {|
+    readonly string id = "";
+    string name = "";
+    string role = "";
+|};
+
+@protobuf:Descriptor {value: SHOPPING_DESC}
+public type ListResponse record {|
+    Product[] products = [];
+|};
+
+@protobuf:Descriptor {value: SHOPPING_DESC}
+public type Product record {|
+    string name = "";
+    string description = "";
+    float price = 0.0;
+    int stock_quantity = 0;
+    readonly string sku = "";
+    string status = "";
+|};
+
+@protobuf:Descriptor {value: SHOPPING_DESC}
+public type OrderMessage record {|
+    string user_id = "";
+    string message = "";
+|};
+
+@protobuf:Descriptor {value: SHOPPING_DESC}
+public type UserCreationMessage record {|
+    User[] users = [];
+|};
+
+@protobuf:Descriptor {value: SHOPPING_DESC}
+public type ProductMessage record {|
+    string message = "";
+    Product product = {};
+|};
+
+@protobuf:Descriptor {value: SHOPPING_DESC}
+public type Cart record {|
+    readonly string user_id = "";
+    string sku = "";
+|};
+
